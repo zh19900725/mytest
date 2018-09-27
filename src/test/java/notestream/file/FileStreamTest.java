@@ -4,29 +4,26 @@
  */
 package notestream.file;
 
+import notestream.BaseConstant;
 import org.junit.Test;
 
 import java.io.*;
 import java.util.Arrays;
 
 /**
- * java IO 节点流学习
- *
+ * java IO 节点流学习该类型可以从或者向一个特定的地点或者节点读写数据
+ * A.文件流
  * @author zhanghui
  * @version Id: FileStreamTest.java, v 0.1 2018/9/25 0025 9:56 zhanghui Exp $$
  */
 public class FileStreamTest {
-
-    private static final String filePath = "F:" + File.separator + "desktop" + File.separator + "MyTest" + File.separator + "test.txt";
-    private static final String mkDirPath = "F:" + File.separator + "desktop" + File.separator + "MyTest" + File.separator + "MkDirTest";
-
 
     /**
      * 创建文件
      */
     @Test
     public void createFile() {
-        File file = new File(filePath);
+        File file = new File(BaseConstant.filePath);
         try {
             boolean result = file.createNewFile();
             System.out.println("创建结果：" + result);
@@ -41,7 +38,7 @@ public class FileStreamTest {
      */
     @Test
     public void deleteFile() {
-        File file = new File(filePath);
+        File file = new File(BaseConstant.filePath);
         boolean flag = file.exists();
         System.out.println("文件是否存在：" + flag);
         boolean deleteFlag = file.delete();
@@ -53,7 +50,7 @@ public class FileStreamTest {
      */
     @Test
     public void createMkDir() {
-        File file = new File(mkDirPath);
+        File file = new File(BaseConstant.mkDirPath);
         boolean mkDir = file.mkdir();
         System.out.println("创建文件夹结果：" + mkDir);
     }
@@ -76,7 +73,7 @@ public class FileStreamTest {
      */
     @Test
     public void InserNum() throws IOException {
-        File file = new File(filePath);
+        File file = new File(BaseConstant.filePath);
         RandomAccessFile demo = new RandomAccessFile(file, "rw");
         demo.writeBytes("我的天啊。。");
         demo.writeInt(12);
@@ -94,7 +91,7 @@ public class FileStreamTest {
     @Test
     public void stringIn() {
         //创建节点
-        File file = new File(filePath);
+        File file = new File(BaseConstant.filePath);
         try {
             //创建输出流对象
             OutputStream out = new FileOutputStream(file);
@@ -118,7 +115,7 @@ public class FileStreamTest {
      */
     @Test
     public void byteIn() {
-        File file = new File(filePath);
+        File file = new File(BaseConstant.filePath);
         try {
             OutputStream out = new FileOutputStream(file);
             String demo = "hello 我的名字叫张辉 ";
@@ -139,7 +136,7 @@ public class FileStreamTest {
      */
     @Test
     public void newByteIn() {
-        File file = new File(filePath);
+        File file = new File(BaseConstant.filePath);
         try {
             OutputStream out = new FileOutputStream(file, true);
             String str = " 我在甜橙金融工作 ";
@@ -161,7 +158,7 @@ public class FileStreamTest {
     @Test
     public void getFileLength() {
         //实例化结点流
-        File file = new File(filePath);
+        File file = new File(BaseConstant.filePath);
         //获取节点大小
         System.out.println("文件大小:" + file.length());
         try {
@@ -186,7 +183,7 @@ public class FileStreamTest {
     @Test
     public void OneSelectFile() {
         //实例化结点流
-        File file = new File(filePath);
+        File file = new File(BaseConstant.filePath);
         //获取节点大小
         System.out.println("文件大小:" + file.length());
         try {
@@ -212,7 +209,7 @@ public class FileStreamTest {
      */
     @Test
     public void NotSelectFile() {
-        File file = new File(filePath);
+        File file = new File(BaseConstant.filePath);
         try {
             int temp;
             InputStream in = new FileInputStream(file);
@@ -235,7 +232,7 @@ public class FileStreamTest {
      */
     @Test
     public void fileCopy(){
-        File file1 = new File(filePath);
+        File file1 = new File(BaseConstant.filePath);
         File file2 = new File("F:" + File.separator + "desktop" + File.separator + "MyTest" +File.separator+"testCopy.txt");
         if(!file1.exists()){
             throw new RuntimeException("要复制的文件不存在");
@@ -259,41 +256,5 @@ public class FileStreamTest {
             e.printStackTrace();
         }
     }
-
-    /**
-     * 字节流转化为字符流
-     */
-    @Test
-    public void convertByteToString(){
-        File file = new File(filePath);
-        try {
-            InputStream in = new FileInputStream(file);
-            Reader reader = new InputStreamReader(in);
-            char[] chars = new char[(int)file.length()];
-            int len = reader.read(chars);
-            System.out.println(String.valueOf(chars).substring(0,len));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    /**
-     * 内存操作流大小写转化
-     */
-    @Test
-    public void byteArray(){
-        String str = "HELLO WORLD";
-        ByteArrayInputStream input = new ByteArrayInputStream(str.getBytes());
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        int temp;
-        while ((temp = input.read())!=-1){
-            char c = (char) temp;
-            output.write(Character.toLowerCase(c));
-        }
-        String lowerStr = output.toString();
-        System.out.println(lowerStr);
-    }
-
 
 }
